@@ -1,0 +1,1 @@
+A web app used to document and monitor bugs throughout the development process. Built with C# (ASP.NET framework) and Angular.

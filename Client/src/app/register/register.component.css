@@ -1,0 +1,48 @@
+
+.bg-img {
+  background-image: url('/assets/images/bg-img.png');
+  height: 100vh;
+  background-size: cover;
+}
+
+
+.card {
+  border-radius: 30px;
+  background-color: floralwhite;
+}
+
+
+h1 {
+  color: darkslategray;
+}
+
+h4 {
+  color: darkslategray;
+  text-align: center;
+}
+
+
+input {
+  border-radius: 20px;
+  color: darkslategray;
+}
+
+
+.form-control:focus {
+  border-color: darkslategray;
+  box-shadow: 0 0 0 0.2rem rgba(49,79,79, 0.25);
+}
+
+.sign-in-btn {
+  border-radius: 20px;
+  background-color: darkslategray;
+  color: white;
+}
+
+  .sign-in-btn:hover {
+    color: peachpuff;
+  }
+
+a {
+  color: teal;
+}

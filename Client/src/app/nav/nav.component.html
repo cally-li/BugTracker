@@ -1,0 +1,72 @@
+
+
+  <div class="row">
+    <!--sidebar-->
+    <div >
+    <div class="sidebar flex-column flex-shrink-0 p-3 position-fixed">
+      <a href="/" class="nav-link nav-title sidebar-link"><h4>BugTracker</h4></a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto" >
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" href="#">Manage Role Assignment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" href="#">Manage Project Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" href="#">My Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" href="#">My Tickets</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link sidebar-link" routerLink="/messages">Messages</a>
+        </li>
+      </ul>
+      <hr class="bottom-hr">
+
+      <!--dropdown menu-->
+        <!--ngx-bootstrap dropdown directives applied-->
+      <div class="dropdown" dropdown >
+        <button class="dropdown-toggle" dropdownToggle>
+         Settings
+        </button>
+        <div class="dropdown-menu" *dropdownMenu>
+
+          <a class="dropdown-item" href="#">Edit Profile</a>
+          <a class="dropdown-item" href="#">Members</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="/login" (click)="logout()">Sign Out</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+    <!-- Top navbar -->
+    <nav class="navbar navbar-expand-md fixed-top bg-light py-0">
+      <img src="\assets\images\default.png" alt="" width="32" height="32" class="ml-sm-2 rounded-circle">
+      <strong class="navbar-brand ml-sm-3">{{displayMessage}}</strong>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+          </li>
+
+        </ul>
+        <!--search bar-->
+        <form class="form-inline mt-2 mt-md-0" #searchForm="ngForm" (ngSubmit)="search()">
+          <input name="searchQuery"
+                 [(ngModel)]="model.searchQuery"
+                 class="form-control form-control-md mr-sm-0 search-bar" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn my-2 mr-sm-5 icon-link" type="submit">Search</button>
+        </form>
+        <!--log out button-->
+        <a class="sign-out-btn btn my-2 my-sm-0 btn-sm nav-link" routerLink="/login" (click)="logout()">Sign Out</a>
+
+      </div>
+    </nav>
+  </div>
