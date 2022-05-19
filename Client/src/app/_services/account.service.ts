@@ -34,9 +34,15 @@ export class AccountService {
     )
   }
 
-  //helper method: set the current logged in user
+  //helper method: set the current logged in user (in app module)
   setCurrentUser(user: User) {
     this.currentUserSource.next(user);
+  }
+
+  //check if user is logged in
+  isLoggedIn(){
+    var user=localStorage.getItem('user');
+    return user;
   }
 
   //logout - remove persisted user from local storage
@@ -47,6 +53,8 @@ export class AccountService {
 
   //receives credentials from register form
   register(model: any) {
-    return this.http.post(this.baseUrl+'account/register', model)
+    return this.http.post(this.baseUrl+'account/register', model).pipe(
+      map((user:User) => { return user})
+    )
   }
 }

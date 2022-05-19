@@ -1,4 +1,5 @@
 using BugTracker.Extensions;
+using BugTracker.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,19 +32,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
 //match http request to endpoint
 app.UseRouting();
 
-//implement CORS before auth/authen
+//implement CORS before auth/authen - allow communication between client and API
 app.UseCors(policy=>policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
-//JWT authentication
+//JWT authentication - identify the user
 app.UseAuthentication();
 
-//check browser is authorized to access requested info
+//check user is authorized to access requested info
 app.UseAuthorization();
 
 //create/execute http endpoints for routed controllers

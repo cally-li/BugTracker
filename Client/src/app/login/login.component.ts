@@ -12,6 +12,10 @@ export class LoginComponent implements OnInit {
 
   //class property (any type, initialized to empty obj) : for storing data that user enters into the login form
   model: any = {}
+  //array of validation errors
+  validationErrors: string[] =[];
+  emailError: string ='';
+  passwordError: string ='';
 
   //inject account service
   constructor(private accountService: AccountService, private router: Router, private toastr: ToastrService) { }
@@ -25,9 +29,26 @@ export class LoginComponent implements OnInit {
       response => {
         this.router.navigateByUrl('/home');
       },
-      error => {
+      error=>{
         console.log(error);
-        this.toastr.error(error.error)
-    })
+        this.validationErrors=error;
+        this.assignErrors();
+      }
+    )
   }
+
+  //assign errors to variables in template
+  assignErrors():void{
+    //loop over array
+    for (let i = 0; i < this.validationErrors.length; i++) {
+      if (this.validationErrors[i].includes('Email')) {
+        this.emailError = this.validationErrors[i];
+      }
+      if (this.validationErrors[i].includes('Password')) {
+        this.passwordError = this.validationErrors[i];
+      }
+    }
+
+  }
+
 }

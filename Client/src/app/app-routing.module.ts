@@ -9,17 +9,26 @@ import { AuthGuard } from './_guards/auth.guard';
 import { AnonymousUserGuard } from './_guards/anonymous-user.guard';
 import { UsersComponent } from './users/users.component';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { NotAuthorizedComponent } from './errors/not-authorized/not-authorized.component';
 
 const routes: Routes = [
 
   //guard redirects to home page if logged in
   { path: 'login', component: LoginComponent, canActivate: [AnonymousUserGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AnonymousUserGuard] },
+  //route for error testing
+  { path: 'errors', component: TestErrorsComponent },
+  { path: 'not-authorized', component: NotAuthorizedComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
 
   //redirect root page to login
   { path: '', redirectTo: "/login", pathMatch: 'full' },
 
-  //apply navbar layout to logged-in routes
+  //apply navbar layout to logged-in routes 
   {
     path: '',
     component: SiteLayoutComponent,
@@ -31,9 +40,8 @@ const routes: Routes = [
       { path: 'user/:id', component: UserInfoComponent }
     ]
   },
-
-  //create "component: PageNotFoundComponent https://angular.io/guide/router-tutorial
-  { path: '**', component: HomeComponent, pathMatch: 'full' },
+  
+  { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 
   
  
