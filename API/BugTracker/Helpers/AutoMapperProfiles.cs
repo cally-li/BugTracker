@@ -8,7 +8,8 @@ namespace BugTracker.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, AllUsersDto>().ReverseMap();
+            CreateMap<User, UserDetailDto>();
+            CreateMap<Ticket, TicketDto>();
         }
     }
 }

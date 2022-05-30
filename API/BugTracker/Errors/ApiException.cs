@@ -1,4 +1,5 @@
-﻿namespace BugTracker.Errors
+﻿//used in Exception Middleware
+namespace BugTracker.Errors
 {
     public class ApiException
     {

@@ -17,6 +17,7 @@ namespace BugTracker.Extensions
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
 
+
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();

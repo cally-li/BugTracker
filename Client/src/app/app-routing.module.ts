@@ -37,7 +37,10 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'messages', component: MessagesComponent },
       { path: 'users', component: UsersComponent },
-      { path: 'user/:id', component: UserInfoComponent }
+      { path: 'user/:id', component: UserInfoComponent },
+      // { path: 'projects', component: ProjectsComponent },
+      // { path: 'tickets', component: TicketsComponent },
+      // {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     ]
   },
   
