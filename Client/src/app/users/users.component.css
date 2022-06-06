@@ -1,0 +1,15 @@
+.row {
+    margin-top: 75px;
+    margin-left: 250px;
+}
+
+
+.table-header {
+    color: darkslategray;
+}
+
+.title {
+    color: darkslategray;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}

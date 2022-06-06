@@ -1,1 +1,22 @@
-<p>users works!</p>
+  <div class="row">
+    <h3 class="title">Members of Your Organization</h3>
+    <table class="table">
+        <thead>
+          <tr>
+            <th class= "table-header" scope="col">First Name</th>
+            <th class= "table-header" scope="col">Last Name</th>
+            <th class= "table-header" scope="col">Email</th>
+            <th class= "table-header" scope="col">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members$ | async">
+            <td class="data">{{member.firstName}}</td>
+            <td class="data">{{member.lastName}}</td>
+            <td class="data">{{member.email}}</td>
+            <td class="data">{{member.role}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+  </div>

@@ -2,7 +2,7 @@
 
 namespace BugTracker.DTOs
 {
-    public class UserDetailDto
+    public class UsersDetailDto
     {
         public int UserId { get; set; }
         public string FirstName { get; set; }
@@ -10,7 +10,7 @@ namespace BugTracker.DTOs
         public string Email { get; set; }
 
         public string Role { get; set; }
-        public ICollection<TicketDto>? AssignedTickets { get; set; }
-        public ICollection<TicketDto>? SubmittedTickets { get; set; }
+        //public ICollection<TicketDto>? AssignedTickets { get; set; }
+        //public ICollection<TicketDto>? SubmittedTickets { get; set; }
     }
 }

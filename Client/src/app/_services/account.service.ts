@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
 //service to login, logout, make API calls
@@ -12,7 +13,7 @@ import { User } from '../_models/user';
 export class AccountService {
 
   //api url
-  baseUrl = 'https://localhost:7214/api/'
+  baseUrl = environment.apiUrl;
   //observable to store logged in user (store 1 User object when logged in)
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();

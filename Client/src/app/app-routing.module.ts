@@ -8,11 +8,12 @@ import { SiteLayoutComponent } from './site-layout/site-layout.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { AnonymousUserGuard } from './_guards/anonymous-user.guard';
 import { UsersComponent } from './users/users.component';
-import { UserInfoComponent } from './user-info/user-info.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { NotAuthorizedComponent } from './errors/not-authorized/not-authorized.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
 
@@ -37,7 +38,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'messages', component: MessagesComponent },
       { path: 'users', component: UsersComponent },
-      { path: 'user/:id', component: UserInfoComponent },
+      { path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard] },
       // { path: 'projects', component: ProjectsComponent },
       // { path: 'tickets', component: TicketsComponent },
       // {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
