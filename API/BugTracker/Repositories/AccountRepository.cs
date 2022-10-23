@@ -70,19 +70,17 @@ namespace BugTracker.Repositories
         public bool CorrectPassword(User user, LoginDto loginDto)
         {
             bool correctPassword = true;
-            int flag = 0;
 
             //calculate the computed hash using the password salt(key)
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
             //validate the stored password matches the input password
-            for (int i = 0; i < computedHash.Length && flag==0; i++)
+            for (int i = 0; i < computedHash.Length && correctPassword; i++)
             {
                 if (computedHash[i] != user.PasswordHash[i])
                 {
                     correctPassword=false;
-                    flag = 1;
                 }
             }
 

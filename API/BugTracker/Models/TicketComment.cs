@@ -2,10 +2,10 @@
 {
     public class TicketComment
     {
-        public int TicketCommentId { get; set; }
+        public int Id { get; set; }
 
         public User Commenter { get; set; }
 
-        public DateTime Created { get; set; }   = DateTime.Now;
+        public DateTime Created { get; set; }
     }
 }

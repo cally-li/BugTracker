@@ -1,5 +1,4 @@
 ﻿using BugTracker.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -11,92 +10,148 @@ namespace BugTracker.Data
 
         public Seed(DataContext context)
         {
-            _context = context; 
+            _context = context;
         }
-        public async Task SeedData()
+        public void SeedData()
         {
-            await _context.Database.MigrateAsync(); 
 
-            if (!await _context.Users.AnyAsync())
+            if (!_context.Users.Any()) //if no users found in database
             {
-                var project = new Project()
-                {
-                    Name = "Project1",
-                    Description = "bugtracker",
-                    Tickets = new List<Ticket>()
-                        {
-                            new Ticket()
-                            {
-                                Title = "Ticket1",
-                                AssignedDeveloperId = 2,
-                                SubmitterId = 1,
-                                Description = "Ticket1 description",
-                                Status = "Open",
-                                Priority= "High",
-                                Type = "Bug",
 
-                            },
-                            new Ticket()
-                            {
-                                Title = "Ticket2",
-                                AssignedDeveloperId = 2,
-                                SubmitterId = 1,
-                                Description = "Ticket2 description",
-                                Status = "Open",
-                                Priority= "Medium",
-                                Type = "Bug"
-                            }
-                        }
+                var tickets = new List<Ticket>()
+                {
+                    new Ticket()
+                    {
+                        Title = "Ticket1",
+                        Description = "Ticket1 description",
+                        Status = "Open",
+                        Priority= "High",
+
+                    },
+                    new Ticket()
+                    {
+                        Title = "Ticket2",
+                        Description = "Ticket2 description",
+                        Status = "Open",
+                        Priority= "Medium",
+                    },
+                    new Ticket()
+                    {
+                        Title = "Ticket3",
+                        Description = "Ticket3 description",
+                        Status = "Closed",
+                        Priority= "Low",
+
+                    }
                 };
-                _context.Projects.Add(project);
+
+
+                var projects = new List<Project>()
+                {
+                     new Project(){
+                        Name = "Project1",
+                        Description="BugTracker",
+                        Tickets=new List<Ticket>()
+                        {
+                            tickets[0]
+                        }
+
+                    },
+                    new Project(){
+                        Name = "Project2",
+                        Description="Finance Software",
+                        Tickets=new List<Ticket>()
+                        {
+                            tickets[1]
+                        },
+                    },
+                    new Project(){
+                        Name = "Project3",
+                        Description="Portfolio Page",
+                        Tickets=new List<Ticket>()
+                        {
+                            tickets[2]
+                        },
+                    }
+                };
 
 
                 var users = new List<User>()
                 {
                     new User()
                     {
-
                         FirstName = "Cally",
                         LastName = "Li",
                         Email = "cally.li@queensu.ca",
-                        Role = "Admin"
+                        Role = "Manager",
+                        AccountCreated = new DateTime(2020, 1,1),
+                        LastActive=new DateTime(2022, 10, 21),
+                        Photo = new Photo() { Url = "https://randomuser.me/api/portraits/women/1.jpg"},
+                        SubmittedTickets=new List<Ticket>()
+                        {
+                            tickets[0],
+                            tickets[1],
+                            tickets[2]
+                        },
+                        ProjectUsers= new List<ProjectUser>()
+                        {
+                            new ProjectUser() { Project = projects[0] },
+                            new ProjectUser() { Project = projects[1] },
+                            new ProjectUser() { Project = projects[2] }
+                        }
+                          
                     },
                     new User()
                     {
                         FirstName = "Jane",
                         LastName = "Doe",
                         Email = "jane.doe@test.ca",
-                        Role = "Developer"
-                    },
-                    new User()
-                    {
-                        FirstName = "Edward",
-                        LastName = "Scissorhands",
-                        Email = "edward.scissorhands@test.ca",
-                        Role = "Developer"
+                        Role = "Developer",
+                        AccountCreated = new DateTime(2020, 1,1),
+                        LastActive=new DateTime(2022, 10, 15),
+                        Photo = new Photo() { Url = "https://randomuser.me/api/portraits/women/2.jpg"},
+                        AssignedTickets=new List<Ticket>()
+                        {
+                            tickets[0],
+                            tickets[1],
+                        },
+                        ProjectUsers= new List<ProjectUser>()
+                        {
+                            new ProjectUser() { Project = projects[1] },
+                        }
 
                     },
                     new User()
                     {
-                        FirstName = "Ben",
+                        FirstName = "May",
                         LastName = "Parker",
-                        Email = "ben.parker@test.ca",
-                        Role = "Developer"
-
+                        Email = "may.parker@test.ca",
+                        Role = "Developer",
+                        AccountCreated = new DateTime(2020, 1,1),
+                        LastActive=new DateTime(2022, 10, 2),
+                        Photo = new Photo() { Url = "https://randomuser.me/api/portraits/women/3.jpg"},
+                        AssignedTickets=new List<Ticket>()
+                        {
+                            tickets[2],
+                        },
+                        ProjectUsers= new List<ProjectUser>()
+                        {
+                            new ProjectUser() { Project = projects[2] },
+                        }
                     }
-
                 };
 
+                //create password for every user
                 foreach (var user in users)
                 {
                     using var hmac = new HMACSHA512();
                     user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
                     user.PasswordSalt = hmac.Key;
-                    _context.Users.Add(user);
                 }
 
 
-                await _context.SaveChangesAsync();
+                _context.Users.AddRange(users);
+                _context.SaveChanges();
             }
 
         }

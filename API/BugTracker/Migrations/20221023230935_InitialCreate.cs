@@ -5,79 +5,85 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BugTracker.Migrations
 {
-    public partial class AddedMajorEntities : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "AccountCreated",
-                table: "Users",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<string>(
-                name: "Email",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "FileAttachmentId",
-                table: "Users",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "LastActive",
-                table: "Users",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "Photo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photo", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectUser",
+                name: "Users",
                 columns: table => new
                 {
-                    AssignedPersonnelUserId = table.Column<int>(type: "int", nullable: false),
-                    ProjectsProjectId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccountCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastActive = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhotoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectUser", x => new { x.AssignedPersonnelUserId, x.ProjectsProjectId });
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectUser_Projects_ProjectsProjectId",
-                        column: x => x.ProjectsProjectId,
+                        name: "FK_Users_Photo_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "Photo",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectUsers",
+                columns: table => new
+                {
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectUsers", x => new { x.ProjectId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ProjectUsers_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectUser_Users_AssignedPersonnelUserId",
-                        column: x => x.AssignedPersonnelUserId,
+                        name: "FK_ProjectUsers_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -85,7 +91,7 @@ namespace BugTracker.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    TicketId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -94,83 +100,54 @@ namespace BugTracker.Migrations
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Tickets_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tickets_Users_AssignedDeveloperId",
                         column: x => x.AssignedDeveloperId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tickets_Users_SubmitterId",
                         column: x => x.SubmitterId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "File Attachments",
-                columns: table => new
-                {
-                    FileAttachmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UploadedByUserId = table.Column<int>(type: "int", nullable: false),
-                    TicketId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_File Attachments", x => x.FileAttachmentId);
-                    table.ForeignKey(
-                        name: "FK_File Attachments_Tickets_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Tickets",
-                        principalColumn: "TicketId");
-                    table.ForeignKey(
-                        name: "FK_File Attachments_Users_UploadedByUserId",
-                        column: x => x.UploadedByUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TicketComments",
                 columns: table => new
                 {
-                    TicketCommentId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CommenterUserId = table.Column<int>(type: "int", nullable: false),
+                    CommenterId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TicketId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketComments", x => x.TicketCommentId);
+                    table.PrimaryKey("PK_TicketComments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TicketComments_Tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
-                        principalColumn: "TicketId");
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TicketComments_Users_CommenterUserId",
-                        column: x => x.CommenterUserId,
+                        name: "FK_TicketComments_Users_CommenterId",
+                        column: x => x.CommenterId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -178,7 +155,7 @@ namespace BugTracker.Migrations
                 name: "TicketHistory",
                 columns: table => new
                 {
-                    TicketHistoryItemId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChangedProperty = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OldValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -188,34 +165,23 @@ namespace BugTracker.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketHistory", x => x.TicketHistoryItemId);
+                    table.PrimaryKey("PK_TicketHistory", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TicketHistory_Tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
-                        principalColumn: "TicketId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_File Attachments_TicketId",
-                table: "File Attachments",
-                column: "TicketId");
+                name: "IX_ProjectUsers_UserId",
+                table: "ProjectUsers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_File Attachments_UploadedByUserId",
-                table: "File Attachments",
-                column: "UploadedByUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_ProjectsProjectId",
-                table: "ProjectUser",
-                column: "ProjectsProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketComments_CommenterUserId",
+                name: "IX_TicketComments_CommenterId",
                 table: "TicketComments",
-                column: "CommenterUserId");
+                column: "CommenterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketComments_TicketId",
@@ -241,15 +207,17 @@ namespace BugTracker.Migrations
                 name: "IX_Tickets_SubmitterId",
                 table: "Tickets",
                 column: "SubmitterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PhotoId",
+                table: "Users",
+                column: "PhotoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "File Attachments");
-
-            migrationBuilder.DropTable(
-                name: "ProjectUser");
+                name: "ProjectUsers");
 
             migrationBuilder.DropTable(
                 name: "TicketComments");
@@ -263,25 +231,11 @@ namespace BugTracker.Migrations
             migrationBuilder.DropTable(
                 name: "Projects");
 
-            migrationBuilder.DropColumn(
-                name: "AccountCreated",
-                table: "Users");
+            migrationBuilder.DropTable(
+                name: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "Email",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "FileAttachmentId",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "LastActive",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "Role",
-                table: "Users");
+            migrationBuilder.DropTable(
+                name: "Photo");
         }
     }
 }

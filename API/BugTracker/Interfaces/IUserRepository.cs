@@ -5,7 +5,7 @@ namespace BugTracker.Interfaces
     public interface IUserRepository
     {
         //get all users
-        Task<List<User>> GetAllUsersAsync();
+        Task<IEnumerable<User>> GetAllUsersAsync();
 
         //get user by id
         Task<User> GetUserByIdAsync(int id);

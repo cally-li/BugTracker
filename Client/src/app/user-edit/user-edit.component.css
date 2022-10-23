@@ -32,3 +32,14 @@ label{
     color: darkslategray;
     font-weight: bold;
 }
+
+.password-btn {
+    border-radius: 5px;
+    border-color: grey;
+    border-width: thin;
+    background-color: transparent;
+}
+
+.password-btn:hover {
+    color: teal;
+}

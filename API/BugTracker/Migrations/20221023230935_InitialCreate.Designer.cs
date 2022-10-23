@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220530230255_AddedMajorEntities")]
-    partial class AddedMajorEntities
+    [Migration("20221023230935_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,48 +24,30 @@ namespace BugTracker.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BugTracker.Models.FileAttachment", b =>
+            modelBuilder.Entity("BugTracker.Models.Photo", b =>
                 {
-                    b.Property<int>("FileAttachmentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileAttachmentId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Id");
 
-                    b.Property<int>("Size")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TicketId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UploadedByUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FileAttachmentId");
-
-                    b.HasIndex("TicketId");
-
-                    b.HasIndex("UploadedByUserId")
-                        .IsUnique();
-
-                    b.ToTable("File Attachments");
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("BugTracker.Models.Project", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -75,21 +57,38 @@ namespace BugTracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("Id");
 
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("BugTracker.Models.ProjectUser", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ProjectUsers");
+                });
+
             modelBuilder.Entity("BugTracker.Models.Ticket", b =>
                 {
-                    b.Property<int>("TicketId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AssignedDeveloperId")
-                        .IsRequired()
+                    b.Property<int>("AssignedDeveloperId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -110,19 +109,14 @@ namespace BugTracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubmitterId")
-                        .IsRequired()
+                    b.Property<int>("SubmitterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TicketId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssignedDeveloperId");
 
@@ -135,13 +129,13 @@ namespace BugTracker.Migrations
 
             modelBuilder.Entity("BugTracker.Models.TicketComment", b =>
                 {
-                    b.Property<int>("TicketCommentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketCommentId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CommenterUserId")
+                    b.Property<int>("CommenterId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -150,9 +144,9 @@ namespace BugTracker.Migrations
                     b.Property<int?>("TicketId")
                         .HasColumnType("int");
 
-                    b.HasKey("TicketCommentId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CommenterUserId");
+                    b.HasIndex("CommenterId");
 
                     b.HasIndex("TicketId");
 
@@ -161,11 +155,11 @@ namespace BugTracker.Migrations
 
             modelBuilder.Entity("BugTracker.Models.TicketHistoryItem", b =>
                 {
-                    b.Property<int>("TicketHistoryItemId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketHistoryItemId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ChangedProperty")
                         .IsRequired()
@@ -185,7 +179,7 @@ namespace BugTracker.Migrations
                     b.Property<int?>("TicketId")
                         .HasColumnType("int");
 
-                    b.HasKey("TicketHistoryItemId");
+                    b.HasKey("Id");
 
                     b.HasIndex("TicketId");
 
@@ -194,11 +188,11 @@ namespace BugTracker.Migrations
 
             modelBuilder.Entity("BugTracker.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("AccountCreated")
                         .HasColumnType("datetime2");
@@ -206,9 +200,6 @@ namespace BugTracker.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FileAttachmentId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -229,42 +220,36 @@ namespace BugTracker.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int?>("PhotoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
+            modelBuilder.Entity("BugTracker.Models.ProjectUser", b =>
                 {
-                    b.Property<int>("AssignedPersonnelUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProjectsProjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AssignedPersonnelUserId", "ProjectsProjectId");
-
-                    b.HasIndex("ProjectsProjectId");
-
-                    b.ToTable("ProjectUser");
-                });
-
-            modelBuilder.Entity("BugTracker.Models.FileAttachment", b =>
-                {
-                    b.HasOne("BugTracker.Models.Ticket", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("TicketId");
-
-                    b.HasOne("BugTracker.Models.User", "UploadedBy")
-                        .WithOne("Photo")
-                        .HasForeignKey("BugTracker.Models.FileAttachment", "UploadedByUserId")
+                    b.HasOne("BugTracker.Models.Project", "Project")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UploadedBy");
+                    b.HasOne("BugTracker.Models.User", "User")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BugTracker.Models.Ticket", b =>
@@ -298,7 +283,7 @@ namespace BugTracker.Migrations
                 {
                     b.HasOne("BugTracker.Models.User", "Commenter")
                         .WithMany()
-                        .HasForeignKey("CommenterUserId")
+                        .HasForeignKey("CommenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -316,30 +301,24 @@ namespace BugTracker.Migrations
                         .HasForeignKey("TicketId");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
+            modelBuilder.Entity("BugTracker.Models.User", b =>
                 {
-                    b.HasOne("BugTracker.Models.User", null)
+                    b.HasOne("BugTracker.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("AssignedPersonnelUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PhotoId");
 
-                    b.HasOne("BugTracker.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("BugTracker.Models.Project", b =>
                 {
+                    b.Navigation("ProjectUsers");
+
                     b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("BugTracker.Models.Ticket", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Comments");
 
                     b.Navigation("History");
@@ -349,7 +328,7 @@ namespace BugTracker.Migrations
                 {
                     b.Navigation("AssignedTickets");
 
-                    b.Navigation("Photo");
+                    b.Navigation("ProjectUsers");
 
                     b.Navigation("SubmittedTickets");
                 });

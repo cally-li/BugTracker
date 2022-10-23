@@ -2,6 +2,7 @@
 using AutoMapper;
 using BugTracker.DTOs;
 using BugTracker.Interfaces;
+using BugTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,7 +18,7 @@ namespace BugTracker.Controllers
         
        
         public UsersController(IUserRepository userRepository, IMapper mapper)
-        {
+        { 
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -25,7 +26,7 @@ namespace BugTracker.Controllers
 
         //get all users 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users= await _userRepository.GetAllUsersAsync();
             var usersToReturn = _mapper.Map<List<UsersDetailDto>>(users);
@@ -36,7 +37,7 @@ namespace BugTracker.Controllers
        
         //get user by email
         [HttpGet("{email}")]
-        public async Task<IActionResult> GetUserByEmail(string email)
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
             var userToReturn = _mapper.Map<UsersDetailDto>(user);
@@ -44,7 +45,7 @@ namespace BugTracker.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
             //get user's email from the claim in token
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
