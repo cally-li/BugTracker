@@ -6,45 +6,32 @@
     <div class="sidebar flex-column flex-shrink-0 p-3 position-fixed">
       <a href="/" class="nav-link nav-title sidebar-link"><h4>BugTracker</h4></a>
       <hr>
-      <ul class="nav nav-pills flex-column mb-auto" >
+      <ul class="nav flex-column mb-auto" >
         <li class="nav-item">
-          <a class="nav-link sidebar-link" routerLink="/home">Home</a>
+          <a class="nav-link sidebar-link" routerLink="/home" routerLinkActive="active">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link sidebar-link" href="#">Manage Role Assignment</a>
+          <a class="nav-link sidebar-link" routerLink="/projects" routerLinkActive="active">My Projects</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link sidebar-link" href="#">Manage Project Users</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sidebar-link" href="#">My Projects</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sidebar-link" href="#">My Tickets</a>
+          <a class="nav-link sidebar-link" routerLink="/tickets" routerLinkActive="active">My Tickets</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link sidebar-link" routerLink="/messages">Messages</a>
+          <a class="nav-link sidebar-link" routerLink="/messages" routerLinkActive="active">Messages</a>
         </li>
       </ul>
       <hr class="bottom-hr">
+      <ul class="nav flex-column mb-auto" >
 
-      <!--dropdown menu-->
-        <!--ngx-bootstrap dropdown directives applied-->
-      <div class="dropdown" dropdown >
-        <button class="dropdown-toggle" dropdownToggle>
-         Settings
-        </button>
-        <div class="dropdown-menu" *dropdownMenu>
+      <li class="nav-item">
+        <a class="nav-link sidebar-link" routerLink="/user/edit" routerLinkActive="active">Edit Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sidebar-link" routerLink="/users" routerLinkActive="active">My Organization</a>
+      </li>
+    </ul>
 
-          <a class="dropdown-item" routerLink="/user/edit">Edit Profile</a>
-          <a class="dropdown-item" routerLink="/users">Users</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="/login" (click)="logout()">Sign Out</a>
-        </div>
-      </div>
-    </div>
-    </div>
 
 
     <!-- Top navbar -->
@@ -70,3 +57,6 @@
       </div>
     </nav>
   </div>
+
+
+  

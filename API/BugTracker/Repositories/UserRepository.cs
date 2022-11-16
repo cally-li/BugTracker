@@ -27,12 +27,30 @@ namespace BugTracker.Repositories
             return await _context.Users.FindAsync(id); 
         }
 
+        //get user by email
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.Include(u => u.AssignedTickets).Include(u => u.SubmittedTickets).SingleOrDefaultAsync(u=>u.Email==email);
+            return await _context.Users.SingleOrDefaultAsync(u=>u.Email==email);
         }
 
-        
+        //get users by project
+        public async Task<IEnumerable<User>> GetUsersByProjectAsync(int projectId)
+        {
+            var projectUser = await _context.ProjectUsers.Where(pu => pu.ProjectId== projectId).ToListAsync();
+
+
+            //get user ids from ProjectUsers
+            var userIDs = new List<int>();
+            foreach (var pu in projectUser)
+            {
+                userIDs.Add(pu.UserId);
+            }
+
+            //get all projects by Ids in the list
+            return await _context.Users.Where(u => userIDs.Contains(u.Id)).ToListAsync();
+        }
+
+
         //Ef places a flag on the entity to mark that it has been modified
         //not changing anything in db
         public void Update(User user)

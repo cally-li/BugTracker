@@ -1,0 +1,29 @@
+<div class="main">
+    <h3 class="title"><strong>My Projects</strong></h3>
+  
+    <div class="card">
+    <div class="card-body ">
+        <table class="table">
+            <thead>
+              <tr>
+                <th class= "table-header" scope="col">Project Name</th>
+                <th class= "table-header" scope="col">Description</th>
+                <th class= "table-header" scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let project of projects$ | async">
+                <td class="data">{{project.name}}</td>
+                <td class="data">{{project.description}}</td>
+                <td class="data"><a [routerLink]="['/project', project.id]">Details</a></td>
+              </tr>
+              
+            </tbody>
+          </table>
+    </div>
+    </div>
+    
+    
+</div>
+
+

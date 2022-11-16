@@ -1,15 +1,21 @@
-.row {
-    margin-top: 75px;
-    margin-left: 250px;
-}
-
-
-.table-header {
-    color: darkslategray;
+.main {
+  margin-top: 75px;
+  margin-left: 250px;
 }
 
 .title {
-    color: darkslategray;
-    margin-left: 10px;
-    margin-bottom: 20px;
+  color: darkslategray;
+}
+
+
+.card {
+  border: none;
+  margin-right: 30px;
+}
+
+
+.table thead th {
+  color: darkslategrey;
+  background-color: #f8f9fa;
+  text-transform: uppercase;
 }

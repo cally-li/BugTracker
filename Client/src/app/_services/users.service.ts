@@ -46,4 +46,13 @@ export class UsersService {
       })
     )
   }
+
+  getUsersByProject(projectId:any){
+    return this.http.get<Member[]>(this.baseUrl+ 'users/projects/' + projectId).pipe(
+      map(members=>{
+        return members;
+      })
+    )
+  }
+
 }

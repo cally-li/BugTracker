@@ -1,0 +1,76 @@
+<div class="main">
+    <ng-container *ngIf="( project$ | async ) as project">
+        <div class="card card-description ">
+            <div class="card-body bg-light description">
+                <h3 class="title"><strong>{{project.name}}</strong></h3>
+                {{project.description}}
+            </div>
+        </div>
+    </ng-container>
+    <div class="card-deck">
+        <div class="card bottom">
+            <div class="card-body ">
+                <h5 class="card-title ">Assigned Personnel</h5>
+            </div>
+        </div>
+        <div class="card bottom">
+            <div class="card-body ">
+                <h5 class="card-title">Tickets</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-deck top">
+        <div class="card">
+            <div class="card-body ">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="table-header" scope="col">Name</th>
+                            <th class="table-header" scope="col">Email</th>
+                            <th class="table-header" scope="col">Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let person of assignedPersonnel$ | async">
+                            <td class="data">{{person.firstName}} {{person.lastName}}</td>
+                            <td class="data">{{person.email}}</td>
+                            <td class="data">{{person.role}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body ">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="table-header" scope="col">Title</th>
+                            <th class="table-header" scope="col">Submitter</th>
+                            <th class="table-header" scope="col">Developer</th>
+                            <th class="table-header" scope="col">Priority</th>
+                            <th class="table-header" scope="col">Status</th>
+                            <th class="table-header" scope="col">Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of (tickets$ | async)">
+                            <td class="data">{{ticket.title}}</td>
+                            <td class="data">{{ticket.submitter.email}}</td>
+                            <td class="data">{{ticket.assignedDeveloper.email}}</td>
+                            <td class="data">{{ticket.priority}}</td>
+                            <td class="data">{{ticket.status}}</td>
+                            <td class="data">{{ticket.created | date:'dd-MM-y'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

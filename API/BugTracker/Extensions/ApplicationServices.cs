@@ -21,6 +21,8 @@ namespace BugTracker.Extensions
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
 
             //JWT token creation
             services.AddScoped<ITokenService, TokenService>();

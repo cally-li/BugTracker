@@ -26,6 +26,7 @@ namespace BugTracker.Data
                         Description = "Ticket1 description",
                         Status = "Open",
                         Priority= "High",
+                        Created=new DateTime(2022, 3,23)
 
                     },
                     new Ticket()
@@ -34,6 +35,7 @@ namespace BugTracker.Data
                         Description = "Ticket2 description",
                         Status = "Open",
                         Priority= "Medium",
+                        Created=new DateTime(2022, 7,18)
                     },
                     new Ticket()
                     {
@@ -41,6 +43,7 @@ namespace BugTracker.Data
                         Description = "Ticket3 description",
                         Status = "Closed",
                         Priority= "Low",
+                        Created=new DateTime(2022, 9,14)
 
                     }
                 };

@@ -13,6 +13,9 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { NotAuthorizedComponent } from './errors/not-authorized/not-authorized.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserProjectsComponent} from './user-projects/user-projects.component';
+import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import { UserTicketsComponent } from './user-tickets/user-tickets.component';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
@@ -39,9 +42,9 @@ const routes: Routes = [
       { path: 'messages', component: MessagesComponent },
       { path: 'users', component: UsersComponent },
       { path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard] },
-      // { path: 'projects', component: ProjectsComponent },
-      // { path: 'tickets', component: TicketsComponent },
-      // {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
+      { path: 'projects', component: UserProjectsComponent },
+      { path: 'project/:id', component: ProjectDetailComponent },
+      { path: 'tickets', component: UserTicketsComponent },
     ]
   },
   

@@ -34,8 +34,17 @@ namespace BugTracker.Controllers
 
         }
 
-       
-        //get user by email
+        //get users by project (users/projects/projectId)
+        [HttpGet("projects/{projectId}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersByProject(int projectId)
+        {
+            var users = await _userRepository.GetUsersByProjectAsync(projectId);
+            var usersToReturn = _mapper.Map<List<UsersDetailDto>>(users);
+            return Ok(usersToReturn);
+        }
+
+
+        //get user by email (users/email)
         [HttpGet("{email}")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
@@ -44,6 +53,7 @@ namespace BugTracker.Controllers
             return Ok(userToReturn);
         }
 
+        //update user 
         [HttpPut]
         public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {

@@ -4,59 +4,24 @@
     <div class="card" style="width: 30rem">
       <div class="card-body p-5">
         <form
-          #registerForm="ngForm"
+          [formGroup]="registerForm"
           class="form-signin text-center"
-          (ngSubmit)="register()"
+          (ngSubmit)="registerForm.valid && register()"
         >
           <h1 class="mb-5 font-weight-bold">BugTracker</h1>
-          <div class="form-group">
-            <label class="sr-only">First Name</label>
-            <input
-              name="firstName"
-              [(ngModel)]="model.firstName"
-              class="form-control form-control-md"
-              placeholder="First Name"
-            />
-          <p class="text-danger" *ngIf="firstNameError != ''">{{ firstNameError }}</p>
-
-          </div>
-          <div class="form-group">
-            <label class="sr-only">Last Name</label>
-            <input
-              name="lastName"
-              [(ngModel)]="model.lastName"
-              class="form-control form-control-md"
-              placeholder="Last Name"
-            />
-            <p class="text-danger" *ngIf="lastNameError != ''">{{ lastNameError }}</p>
-
-          </div>
-          <div class="form-group">
-            <label class="sr-only">Email address</label>
-            <input
-              name="email"
-              [(ngModel)]="model.email"
-              class="form-control form-control-md"
-              placeholder="Email address"
-            />
-          <p class="text-danger" *ngIf="emailError != ''">{{ emailError }}</p>
-
-          </div>
-          <div class="form-group">
-            <label class="sr-only">Password</label>
-            <input
-              name="password"
-              [(ngModel)]="model.password"
-              class="form-control form-control-md mb-5"
-              placeholder="Password"
-              type="password"
-            />
-            <p class="text-danger" *ngIf="passwordError != ''">
-              {{ passwordError }}
-            </p>
-          </div>
-
-          <button class="sign-in-btn btn btn-md mb-5" type="submit">
+          <app-text-input [formControl]='registerForm.controls["firstName"]' [label]='"First Name"'></app-text-input>
+          <app-text-input [formControl]='registerForm.controls["lastName"]' [label]='"Last Name"'></app-text-input>
+          <app-text-input [formControl]='registerForm.controls["email"]' [label]='"Email"' [type]='"email"'></app-text-input>
+          <app-text-input [formControl]='registerForm.controls["password"]' [label]='"Password"' [type]='"password"'></app-text-input>
+          <app-text-input [formControl]='registerForm.controls["confirmPassword"]' [label]='"Confirm Password"' [type]='"password"'></app-text-input>
+          <div class="row mt-5" *ngIf="validationErrors.length > 0">
+            <ul class="text-danger">
+                <li *ngFor="let error of validationErrors">
+                    {{error}}
+                </li>
+            </ul>
+        </div>
+          <button [diasbled]='!registerForm.valid' class="sign-in-btn btn btn-md mt-3 mb-5" type="submit">
             Register
           </button>
           <div>

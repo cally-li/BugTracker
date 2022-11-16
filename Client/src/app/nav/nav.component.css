@@ -65,7 +65,8 @@
   }
 
   .sidebar-link{
-      margin-left:12px;
+    padding-left:30px;
+    width: 230px;
   }
 
   hr {
@@ -80,31 +81,8 @@
       margin-top: 60px;
   }
 
-  /*dropdown menu override*/
-  button.dropdown-toggle {
-      border: none;
-      background-color: darkslategray;
-      color: white;
-      margin-left: 20px;
-      margin-bottom: 10px;
-  }
 
-  button.dropdown-toggle:hover {
+  .active{
     color: peachpuff;
+    background-color: rgba(255, 255, 255, .1);
   }
-
-  .dropdown-menu {
-    background: rgba(255, 255, 255, .1);
-    text-align: center;
-    min-width: 216px;
-  }
-
-  .dropdown-item {
-    color: white;
-  }
-
-  .dropdown-item:focus, .dropdown-item:hover {
-    background-color: teal;
-  }
-
-

@@ -11,11 +11,15 @@
 }
 
 
+
 .card {
-    border-radius: 20px;
     border: none;
     margin-right: 30px;
   }
+
+.card-body {
+  border-radius: 30px;
+}
 
 .save-btn {
     border-radius: 20px;
@@ -34,10 +38,9 @@ label{
 }
 
 .password-btn {
-    border-radius: 5px;
-    border-color: grey;
-    border-width: thin;
-    background-color: transparent;
+    background-color: rgba(47, 79, 79, 0.096);
+    border: none;
+    padding: 10px 20px 10px 20px;
 }
 
 .password-btn:hover {

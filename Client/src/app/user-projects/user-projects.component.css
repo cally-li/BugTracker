@@ -1,0 +1,28 @@
+.main {
+    margin-top: 75px;
+    margin-left: 250px;
+}
+
+.card {
+    border: none;
+    margin-right: 30px;
+  }
+
+
+
+
+a {
+  color:teal;
+}
+
+.title{
+  color:darkslategray;
+}
+
+
+.table thead th {
+  color:darkslategrey;
+  background-color:#f8f9fa;
+  text-transform: uppercase;
+}
+

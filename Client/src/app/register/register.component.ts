@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { ToastrService } from 'ngx-toastr';
 import { User } from '../_models/user';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,30 +9,39 @@ import { User } from '../_models/user';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  model: any = {};
+  registerForm:FormGroup;
 
-  //array of validation errors
-  validationErrors: string[] = [];
-  firstNameError: string = '';
-  lastNameError: string = '';
-  emailError: string = '';
-  passwordError: string = '';
+  //server-side validation errors thrown back from interceptor
+  validationErrors: string[]=[];
 
   //message upon successful registration
   registered: boolean = false;
   email: string = '';
 
+
   constructor(
     private accountService: AccountService,
-    private toastr: ToastrService
+    private fb:FormBuilder,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.intitializeForm();
+  }
+  
+  intitializeForm(){
+    this.registerForm=this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]],
+    })
+  }
+
 
   register() {
-    this.accountService.register(this.model).subscribe(
+    this.accountService.register(this.registerForm.value).subscribe(
       (response: User) => {
-        console.log(response);
         if (response) {
           this.registered = true;
           this.email = response.email;
@@ -41,27 +50,18 @@ export class RegisterComponent implements OnInit {
       (error) => {
         console.log(error);
         this.validationErrors = error;
-        this.assignErrors();
       }
     );
   }
 
-  //assign errors to variables in template
-  assignErrors(): void {
-    //loop over array
-    for (let i = 0; i < this.validationErrors.length; i++) {
-      if (this.validationErrors[i].includes('First')) {
-        this.firstNameError = this.validationErrors[i];
-      }
-      if (this.validationErrors[i].includes('Last')) {
-        this.lastNameError = this.validationErrors[i];
-      }
-      if (this.validationErrors[i].includes('Email')) {
-        this.emailError = this.validationErrors[i];
-      }
-      if (this.validationErrors[i].includes('Password')) {
-        this.passwordError = this.validationErrors[i];
-      }
+
+  //custom validator - check password matches confirm password
+  //if passwords don't match, attach validator error called isMatching to the FormControl
+  matchValues(matchTo:string): ValidatorFn {
+    return (control:AbstractControl) => {
+      return control?.value ===control?.parent?.controls[matchTo].value
+        ? null : {isMatching:true}   
     }
   }
+
 }

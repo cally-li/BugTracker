@@ -8,7 +8,7 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SiteLayoutComponent } from './site-layout/site-layout.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -23,6 +23,10 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { UserProjectsComponent } from './user-projects/user-projects.component';
+import { UserTicketsComponent } from './user-tickets/user-tickets.component';
+import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,10 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     ServerErrorComponent,
     NotAuthorizedComponent,
     UserEditComponent,
+    UserProjectsComponent,
+    UserTicketsComponent,
+    ProjectDetailComponent,
+    TextInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +54,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
